@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<!--
+Deividas Rutkauskas
+Fergus Kelley
+
+Project #3
+
+CSC4370 Web Programming
+-->
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Project #3</title>
+    
+    <!-- Fetch JQuery from the CDN -->
+    <script
+        src="https://code.jquery.com/jquery-3.1.0.min.js"
+        integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+        crossorigin="anonymous"></script>
+    <script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
+        
+        
+    <!-- Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Serif|Roboto+Slab" rel="stylesheet">
+    
+    <!-- CSS -->
+    <style type="text/css">
+        body {
+            font-family: 'Roboto Slab', serif;
+            color: white;
+            line-height: 1.8em;
+            margin: 0px;
+            padding: 0px;
+            background-color: #2C3654;
+        }
+        
+        button {
+            font-family: 'Noto Sans', sans-serif;
+            /*font-weight: bold;*/
+            font-size: 16px;
+            color: black;
+            border: 0px;
+            background-color: #E07C57;
+            box-shadow: 2px 2px 6px 0px #3D2C3B;
+            margin: 2px 1px;
+            padding: 3px 12px;
+        }
+        
+        input[type="text"] {
+            font-family: 'Noto Sans', sans-serif;
+            /*font-weight: bold;*/
+            font-size: 16px;
+            padding: 1px 0px 2px 0px;
+            width: 4em;
+            text-align: center;
+        }
+        
+        textarea {
+            width: 98%;
+            margin: 6px 6px 0px 0px;
+        }
+        
+        h1, h2 {
+            margin: 6px 0px 0px 6px;
+            padding: 0px;
+        }
+        
+        table {
+            margin: 0px auto;
+            border-collapse: collapse;
+            border: 2px solid #777;
+        }
+        
+        td {
+            border: 1px solid #ddd;
+        }
+        
+        .cell {
+            background-color: white;
+            width: 10px;
+            height: 10px;
+            min-width: 10px;
+            min-height: 10px;
+            /*max-width: 10px;*/
+            /*max-height: 10px;*/
+        }
+        
+        .black {
+            background-color: black;
+        }
+        
+        .white {
+            background-color: white;
+        }
+        
+        #grid {
+            float: left;
+            margin: 6px;
+            padding: 0px;
+        }
+        
+        .controls {
+            color: black;
+            display: inline-block;
+            margin: 0px;
+            padding: 6px;
+        }
+        
+        .controlBox {
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            display: block;
+            margin: 0px 0px 6px 0px;
+            padding: 4px 8px;
+            background-color: #fcfcfc;
+        }
+        
+        #genCount {
+            font-weight: bold;
+        }
+    </style>
+
+    <!-- Javascript -->
+    <script src="gameoflife.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>Conway's Game of Life</h1>
+        <h2>Deividas Rutkauskas and Fergus Kelley</h2>
+
+        <table id="grid"></table>
+        
+        <div class="controls">
+            
+            <div id="GridControls" class="controlBox">
+                <label id="hoursLabel" for="sizeField">Grid size: </label>
+                <input id="sizeField" name="sizeField" type="text" value="40" />
+                <button id="sizeButton" onclick="makeGrid()">Set</button>
+            </div>
+            
+            <div id="GenerationControls" class="controlBox">
+                <div>Generation: <span id="genCount">0</span></div>
+                <button onclick='doGeneration(1)'>Increment by 1 Gen</button>
+                <button onclick='doGeneration(23)'>Increment by 23 Gen</button>
+                <button onclick='makeGrid()'>Reset</button>
+            </div>
+
+            <div id="animationControls" class="controlBox">
+                <label id="animationLabel">Animation:</label>
+                <button id="startButton" onclick='startAnimation()'>Start</button>
+                <button onclick='stopAnimation()'>Stop</button>
+                <label id="speedLabel" for="speedField">&nbsp;&nbsp;&nbsp;&nbsp;Delay (ms):</label>
+                <input id="speedField" name="speedField" type="text" value="100" />
+            </div>
+            
+            <div id="patternControls" class="controlBox">
+                <label id="patternLabel">Patterns:</label><br />
+                <button onclick='randomizeGrid()'>Randomize Population</button>
+                <button onclick='importGrid("block")'>Block</button>
+                <button onclick='importGrid("beehive")'>Beehive</button><br />
+                <button onclick='importGrid("loaf")'>Loaf</button>
+                <button onclick='importGrid("boat")'>Boat</button>
+                <button onclick='importGrid("tub")'>Tub</button>
+                <button onclick='importGrid("blinker")'>Blinker</button>
+                <button onclick='importGrid("toad")'>Toad</button><br />
+                <button onclick='importGrid("beaco")'>Beacon</button>
+                <button onclick='importGrid("pulsar")'>Pulsar</button>
+                <button onclick='importGrid("pentadecathlon")'>Pentadecathlon </button>
+                <button onclick='importGrid("glider")'>Glider</button><br />
+                <button onclick='importGrid("lightweightspaceship")'>Lightweight Spaceship</button>
+                <button onclick='importGrid("gosperglidergun")'>Gosper Glider Gun</button>
+            </div>
+            
+            <div id="exportControls" class="controlBox">
+                <button onclick='exportGrid()'>Export Grid to JSON</button>
+                <button onclick='importGrid()'>Import Grid from JSON</button><br />
+                <textarea id="jsonBox"></textarea>
+            </div>
+            
+        </div>
+
+        <script type="text/javascript" src="gameoflife.js"></script>
+
+    </div>
+</body>
+
+</html>
