@@ -4,5 +4,5 @@ A Javascript implementation of [Conway's Game of Life](https://en.wikipedia.org/
 
 #### Assignment Requirements:
 * Implement Conway's Game of Life using HTML/CSS/JS
-* Generate an HTML table of variable size to represent the game grid
+* Generate an HTML table of variable size to display the game grid
 * Use jQuery and/or AJAX

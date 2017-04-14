@@ -20,14 +20,14 @@ CSC4370 Web Programming
         src="https://code.jquery.com/jquery-3.1.0.min.js"
         integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
         crossorigin="anonymous"></script>
-    <script
+<!--     <script
         src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> -->
         
         
     <!-- Google Fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Serif|Roboto+Slab" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Roboto+Slab" rel="stylesheet">
     
     <!-- CSS -->
     <style type="text/css">
@@ -52,13 +52,13 @@ CSC4370 Web Programming
             padding: 3px 12px;
         }
         
-        input[type="text"] {
+        input[type="number"] {
             font-family: 'Noto Sans', sans-serif;
             /*font-weight: bold;*/
             font-size: 16px;
-            padding: 1px 0px 2px 0px;
+            padding: 1px 0px 2px 3px;
             width: 4em;
-            text-align: center;
+            text-align: left;
         }
         
         textarea {
@@ -66,8 +66,8 @@ CSC4370 Web Programming
             margin: 6px 6px 0px 0px;
         }
         
-        h1, h2 {
-            margin: 6px 0px 0px 6px;
+        h1, h2, h3, h4, h5, h6 {
+            margin: 6px 0px 6px 0px;
             padding: 0px;
         }
         
@@ -87,8 +87,6 @@ CSC4370 Web Programming
             height: 10px;
             min-width: 10px;
             min-height: 10px;
-            /*max-width: 10px;*/
-            /*max-height: 10px;*/
         }
         
         .black {
@@ -98,27 +96,33 @@ CSC4370 Web Programming
         .white {
             background-color: white;
         }
+
+        .container {
+            text-align: center;
+            margin: 0px auto;
+            padding: 0px;
+        }
+
+        .flex {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
         
-        #grid {
-            float: left;
-            margin: 6px;
+        #grid, .controls {
+            margin: 3px;
             padding: 0px;
         }
         
-        .controls {
-            color: black;
-            display: inline-block;
-            margin: 0px;
-            padding: 6px;
-        }
-        
         .controlBox {
+            color: black;
             border: 1px solid #ddd;
             border-radius: 3px;
-            display: block;
             margin: 0px 0px 6px 0px;
             padding: 4px 8px;
             background-color: #fcfcfc;
+            text-align: left;
         }
         
         #genCount {
@@ -137,60 +141,62 @@ CSC4370 Web Programming
         <h1>Conway's Game of Life</h1>
         <h2>Deividas Rutkauskas and Fergus Kelley</h2>
 
-        <table id="grid"></table>
-        
-        <div class="controls">
-            
-            <div id="GridControls" class="controlBox">
-                <label id="hoursLabel" for="sizeField">Grid size: </label>
-                <input id="sizeField" name="sizeField" type="text" value="40" />
-                <button id="sizeButton" onclick="makeGrid()">Set</button>
-            </div>
-            
-            <div id="GenerationControls" class="controlBox">
-                <div>Generation: <span id="genCount">0</span></div>
-                <button onclick='doGeneration(1)'>Increment by 1 Gen</button>
-                <button onclick='doGeneration(23)'>Increment by 23 Gen</button>
-                <button onclick='makeGrid()'>Reset</button>
-            </div>
+        <div class="flex">
 
-            <div id="animationControls" class="controlBox">
-                <label id="animationLabel">Animation:</label>
-                <button id="startButton" onclick='startAnimation()'>Start</button>
-                <button onclick='stopAnimation()'>Stop</button>
-                <label id="speedLabel" for="speedField">&nbsp;&nbsp;&nbsp;&nbsp;Delay (ms):</label>
-                <input id="speedField" name="speedField" type="text" value="100" />
-            </div>
+            <table id="grid"></table>
             
-            <div id="patternControls" class="controlBox">
-                <label id="patternLabel">Patterns:</label><br />
-                <button onclick='randomizeGrid()'>Randomize Population</button>
-                <button onclick='importGrid("block")'>Block</button>
-                <button onclick='importGrid("beehive")'>Beehive</button><br />
-                <button onclick='importGrid("loaf")'>Loaf</button>
-                <button onclick='importGrid("boat")'>Boat</button>
-                <button onclick='importGrid("tub")'>Tub</button>
-                <button onclick='importGrid("blinker")'>Blinker</button>
-                <button onclick='importGrid("toad")'>Toad</button><br />
-                <button onclick='importGrid("beaco")'>Beacon</button>
-                <button onclick='importGrid("pulsar")'>Pulsar</button>
-                <button onclick='importGrid("pentadecathlon")'>Pentadecathlon </button>
-                <button onclick='importGrid("glider")'>Glider</button><br />
-                <button onclick='importGrid("lightweightspaceship")'>Lightweight Spaceship</button>
-                <button onclick='importGrid("gosperglidergun")'>Gosper Glider Gun</button>
-            </div>
+            <div class="controls">
+                
+                <div id="GridControls" class="controlBox">
+                    <label id="hoursLabel" for="sizeField">Grid size: </label>
+                    <input id="sizeField" name="sizeField" type="number" value="40" />
+                    <button id="sizeButton" onclick="makeGrid()">Set</button>
+                </div>
+                
+                <div id="GenerationControls" class="controlBox">
+                    <div>Generation: <span id="genCount">0</span></div>
+                    <button onclick='doGeneration(1)'>Increment 1 Gen</button>
+                    <button onclick='doGeneration(10)'>Increment 10 Gen</button>
+                    <button onclick='makeGrid()'>Reset</button>
+                </div>
+
+                <div id="animationControls" class="controlBox">
+                    <label id="animationLabel">Animation:</label>
+                    <button id="startButton" onclick='startAnimation()'>Start</button>
+                    <button onclick='stopAnimation()'>Stop</button>
+                    <label id="speedLabel" for="speedField">&nbsp;&nbsp;&nbsp;&nbsp;Delay:</label>
+                    <input id="speedField" name="speedField" type="number" value="100" /> (ms)
+                </div>
+                
+                <div id="patternControls" class="controlBox">
+                    <label id="patternLabel">Patterns:</label><br />
+                    <button onclick='randomizeGrid()'>Randomize Population</button>
+                    <button onclick='importGrid("block")'>Block</button>
+                    <button onclick='importGrid("beehive")'>Beehive</button><br />
+                    <button onclick='importGrid("loaf")'>Loaf</button>
+                    <button onclick='importGrid("boat")'>Boat</button>
+                    <button onclick='importGrid("tub")'>Tub</button>
+                    <button onclick='importGrid("blinker")'>Blinker</button>
+                    <button onclick='importGrid("toad")'>Toad</button><br />
+                    <button onclick='importGrid("beaco")'>Beacon</button>
+                    <button onclick='importGrid("pulsar")'>Pulsar</button>
+                    <button onclick='importGrid("pentadecathlon")'>Pentadecathlon </button>
+                    <button onclick='importGrid("glider")'>Glider</button><br />
+                    <button onclick='importGrid("lightweightspaceship")'>Lightweight Spaceship</button>
+                    <button onclick='importGrid("gosperglidergun")'>Gosper Glider Gun</button>
+                </div>
+                
+                <div id="exportControls" class="controlBox">
+                    <button onclick='exportGrid()'>Export Grid to JSON</button>
+                    <button onclick='importGrid()'>Import Grid from JSON</button><br />
+                    <textarea id="jsonBox"></textarea>
+                </div>
             
-            <div id="exportControls" class="controlBox">
-                <button onclick='exportGrid()'>Export Grid to JSON</button>
-                <button onclick='importGrid()'>Import Grid from JSON</button><br />
-                <textarea id="jsonBox"></textarea>
             </div>
-            
         </div>
-
-        <script type="text/javascript" src="gameoflife.js"></script>
-
     </div>
+
+    <script type="text/javascript" src="gameoflife.js"></script>
 </body>
 
 </html>
